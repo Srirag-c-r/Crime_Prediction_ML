@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerala Crime Rate Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-[#1a2238] via-[#16213E] to-[#0F3460] min-h-screen flex items-center justify-center p-4">
+    <div class="container mx-auto max-w-2xl">
+        <div class="bg-[#283046] rounded-2xl shadow-2xl border border-[#394150] p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] mb-4">
+                    Crime Rate Predictor
+                </h1>
+                <p class="text-gray-400 text-lg">Predict Crime Rates Based on Socio-Economic Factors</p>
+            </div>
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="group">
+                    <label class="block mb-2 text-[#4ECDC4] font-semibold flex items-center">
+                        <i class="ri-line-chart-line mr-2"></i>
+                        Unemployment Rate (%)
+                    </label>
+                    <div class="relative">
+                        <input type="number" step="0.01" name="unemployment_rate" 
+                               placeholder="e.g., 10.5 (Typical Kerala unemployment rate)"
+                               class="w-full px-4 py-3 bg-[#1a2238] border border-[#394150] rounded-lg 
+                                      text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] 
+                                      transition duration-300 group-hover:border-[#4ECDC4]"
+                               required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
+                            <i class="ri-percent-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Hint: Enter unemployment percentage</p>
+                </div>
+                
+                <div class="group">
+                    <label class="block mb-2 text-[#4ECDC4] font-semibold flex items-center">
+                        <i class="ri-map-pin-user-line mr-2"></i>
+                        Population Density (people/km²)
+                    </label>
+                    <div class="relative">
+                        <input type="number" name="population_density" 
+                               placeholder="e.g., 860 (Average Kerala density)"
+                               class="w-full px-4 py-3 bg-[#1a2238] border border-[#394150] rounded-lg 
+                                      text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] 
+                                      transition duration-300 group-hover:border-[#4ECDC4]"
+                               required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
+                            <i class="ri-landscape-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Hint: People per square kilometer</p>
+                </div>
+                
+                <div class="group">
+                    <label class="block mb-2 text-[#4ECDC4] font-semibold flex items-center">
+                        <i class="ri-police-badge-line mr-2"></i>
+                        Number of Police Stations
+                    </label>
+                    <div class="relative">
+                        <input type="number" name="police_stations" 
+                               placeholder="e.g., 35 (Typical district coverage)"
+                               class="w-full px-4 py-3 bg-[#1a2238] border border-[#394150] rounded-lg 
+                                      text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] 
+                                      transition duration-300 group-hover:border-[#4ECDC4]"
+                               required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
+                            <i class="ri-building-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Hint: Total police stations in district</p>
+                </div>
+                
+                <div class="group">
+                    <label class="block mb-2 text-[#4ECDC4] font-semibold flex items-center">
+                        <i class="ri-book-open-line mr-2"></i>
+                        Education Index
+                    </label>
+                    <div class="relative">
+                        <input type="number" step="0.01" name="education_index" 
+                               placeholder="e.g., 0.92 (Kerala's high literacy)"
+                               min="0" max="1" 
+                               class="w-full px-4 py-3 bg-[#1a2238] border border-[#394150] rounded-lg 
+                                      text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] 
+                                      transition duration-300 group-hover:border-[#4ECDC4]"
+                               required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
+                            <i class="ri-book-2-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Hint: Normalized literacy rate (0-1)</p>
+                </div>
+                
+                <div class="group">
+                    <label class="block mb-2 text-[#4ECDC4] font-semibold flex items-center">
+                        <i class="ri-money-rupee-circle-line mr-2"></i>
+                        Poverty Rate (%)
+                    </label>
+                    <div class="relative">
+                        <input type="number" step="0.01" name="poverty_rate" 
+                               placeholder="e.g., 12.5 (State poverty percentage)"
+                               class="w-full px-4 py-3 bg-[#1a2238] border border-[#394150] rounded-lg 
+                                      text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] 
+                                      transition duration-300 group-hover:border-[#4ECDC4]"
+                               required>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
+                            <i class="ri-percent-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Hint: Percentage below poverty line</p>
+                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white 
+                               font-bold py-4 rounded-lg hover:from-[#4ECDC4] hover:to-[#FF6B6B] 
+                               transition duration-500 transform hover:scale-105 shadow-lg 
+                               flex items-center justify-center space-x-3 group">
+                    <span>Predict Crime Rate</span>
+                    <i class="ri-arrow-right-line text-xl transform transition-transform group-hover:translate-x-2"></i>
+                </button>
+            </form>
+            
+            {% if prediction %}
+            <div class="mt-8 bg-[#1a2238] border border-[#394150] rounded-lg p-6 text-center">
+                <h2 class="text-2xl font-bold text-[#4ECDC4] mb-4">Predicted Crime Rate</h2>
+                <p class="text-4xl text-[#FF6B6B] font-extrabold">
+                    {{ prediction }} 
+                    <span class="text-xl text-gray-400">per 1,000 people</span>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        /* Custom scrollbar */
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #4ECDC4 #1a2238;
+        }
+        
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        body::-webkit-scrollbar-track {
+            background: #1a2238;
+        }
+        
+        body::-webkit-scrollbar-thumb {
+            background-color: #4ECDC4;
+            border-radius: 20px;
+        }
+
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</body>
+</html>
